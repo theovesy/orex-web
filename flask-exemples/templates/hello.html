@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+	<head>
+	<title>Programmation web avec Flask</title>
+	<link rel='stylesheet' type='text/css' href='{{ url_for("static", filename="style.css") }}'>
+	</head>
+	<body>
+		<div class='contenu'>
+			<a href='/'>retour à l'index</a><br/><br/>
+			<h1>Hello {{ prenom }} !</h1><br/>
+			<img src='{{ url_for("static", filename="globe.png") }}'/>
+		</div>
+	</body>
+</html>

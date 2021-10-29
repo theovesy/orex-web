@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+	<style>
+		table, th, td {
+			border:1px solid black;
+		}
+	</style>
+	
+	<head>
+		<title>Formulaire de Commande</title>
+	</head>
+
+	<body>
+		<h1>Agilog Order</h1>
+		<br>
+		<br>
+		
+		<h2>Formulaire de commande</h2>
+
+		<FORM method=post>
+		<TABLE style="width:100%">
+		
+		<tr>
+			<td>Type de chassis</td>
+			<td>
+				Court : <INPUT type=radio name="chassis" value="C">
+				<br>Long : <INPUT type=radio name="chassis" value="L">
+			</td>
+		</tr>
+	 
+ 
+		<tr>
+			<td>Type de carrosserie</td>
+			<td>
+				Ouverte : <INPUT type=radio name="carrosserie" value="O">
+				<br>Fermée : <INPUT type=radio name="carosserie" value="F">
+			</td>
+		</tr>	 
+
+	  
+		<tr>
+			<td>Options</td>
+			<td>
+				Support Hache : <INPUT type=checkbox name="option1" value="S">
+				<br>Antenne : <INPUT type=checkbox name="option2" value="A">
+				<br>Crochet : <INPUT type=checkbox name="option3" value="C">
+			</td>
+		</tr>
+
+	
+		<td COLSPAN=2>
+			<INPUT type=submit value="Envoyer">
+		</td>
+		
+		</TABLE>
+		</FORM>
+		
+	</body>
+	
+</html>

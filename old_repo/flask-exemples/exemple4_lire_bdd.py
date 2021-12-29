@@ -16,24 +16,20 @@ app = Flask(__name__)
 def index():
 	
 	contenu = ""
-	contenu += "<a href='/hello_get?prenom=toi'>Lien direct</a><br/><br/>"
-	
-	contenu += "<form method='get' action='hello_get'>"
-	contenu += "<input type='text' name='prenom' value=''>"
-	contenu += "<input type='submit' value='Envoyer'>"
-	contenu += "</form><br/><br/>"
-	
-	return contenu
+	contenu += "<a href='/afficher_personnes'>Affichage des personnes de la BDD</a><br/><br/>"
+	return contenu;
+  
 
-# une page avec du texte dynamique envoyé par HTTP/GET
-@app.route('/hello_get', methods=['GET'])  
-def hello_get_prenom():
-
-	contenu = ""
-	contenu += "<a href='/'>retour à l'index</a><br/><br/>"
-	contenu += "Hello, " + request.args.get('prenom', 'une valeur par défaut de la req') + " !"
+@app.route('/afficher_personnes', methods=['GET'])
+def afficher_personnes():
 	
-	return contenu
+	con = lite.connect('exemples.db')
+	con.row_factory = lite.Row
+	cur = con.cursor()
+	cur.execute("SELECT nom, prenom, role FROM personnes")
+	lignes = cur.fetchall()
+	con.close()
+	return render_template('affichage_personnes.html', personnes = lignes)
 	
 # ---------------------------------------
 # pour lancer le serveur web local Flask

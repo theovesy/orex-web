@@ -1,0 +1,148 @@
+body
+{
+	text-align: center;
+	font-family:  sans-serif, "Arial Black", Arial, Verdana, sans-serif, Impact,;
+	/*background-color: black;  Le fond de la page sera noir */
+	background-color: #E5F4E3;
+    color: white;
+    /*background-image: url("https://www.3dnatives.com/wp-content/uploads/2021/02/Industry-4.0-cover.jpg");*/
+	/*+background: url("https://www.3dnatives.com/wp-content/uploads/2021/02/Industry-4.0-cover.jpg") fixed no-repeat center center;*/
+}
+
+
+h1
+{
+	color: #white ;
+	 border: 3px white double;
+}
+
+h2
+{
+	color: #5DA9E9;
+	/*border-bottom: 3px #5DA9E9 double*/
+}
+	
+h3
+{
+	color: #6D326D;
+	font-family:  "Arial Black", Arial, Verdana, sans-serif, Impact,;
+}
+
+
+TD
+{
+	color: #6D326D;
+	text-align: center;
+}
+
+
+/* ================================================ */
+
+header {
+  height:130px;
+  /*background:url(https://lh3.googleusercontent.com/proxy/nviQnVsiqxfYO8Mx7WGk4hN9THLH_C28PQD3-EYGrXhaA2G5Qlqjxoz5FvMGE3zalrvAmnOYgZcgeHFWkyZ5khvsxFJ-SGUFzA) center center;*/
+  background-color:#59719A; /*Couleur de fond*/
+  border:1px solid #CCC;
+  width:width:100%;
+  margin:0px auto;
+  position: center;
+}
+
+/* ================================================ */
+
+
+footer{
+	padding:25px 0px;/*Marge verticale*/
+	background-color:#59719A; /*Couleur de fond*/
+	text-align:center;/*texte centré*/
+	
+
+	position:absolute;
+
+	bottom:0;
+
+	width:100%;
+
+	padding-top:50px;
+
+	height:50px
+}
+
+/* ================================================ */
+
+td,
+th {
+    border: 1px solid rgb(190, 190, 190);
+    padding: 10px;
+}
+
+td {
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #eee;
+}
+
+th[scope="col"] {
+    background-color: #696969;
+    color: #fff;
+}
+
+th[scope="row"] {
+    background-color: #d7d9f2;
+}
+
+caption {
+    padding: 10px;
+    caption-side: bottom;
+}
+
+table {
+	margin : auto;
+	border-spacing:25%
+    border-collapse: collapse;
+    border: 2px solid rgb(200, 200, 200);
+    letter-spacing: 1px;
+    font-family: sans-serif;
+    font-size: .8rem;
+}
+/* ================================================ */
+
+#onglets
+{
+    font : 11px sans-serif, Batang, arial, serif;
+    list-style-type : none;
+    padding-bottom : 24px; /* à modifier suivant la taille de la police ET de la hauteur de l'onglet dans #onglets li */
+    border-bottom : 1px solid #9EA0A1;
+    margin-left : 0;
+}
+
+#onglets li
+{
+    float : left;
+    height : 21px; /* à modifier suivant la taille de la police pour centrer le texte dans l'onglet */
+    background-color: #d7d9f2;
+    margin : 2px 2px 0 2px
+    margin : 1px 2px 0 2px;  /* Pour IE  */
+    border : 1px solid #9EA0A1;
+}
+
+#onglets li.active
+{
+    border-bottom: 1px solid #fff; 
+    background-color: #fff;	/* Couleur onglet actif */
+}
+
+#onglets a
+{
+    display : block;
+    color : #666; /* Couleur texte */
+    text-decoration : none;
+    padding : 4px;
+}
+
+#onglets a:hover
+{
+    background : #fff;  /* Couleur surbrillance */
+}

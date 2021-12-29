@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+<title>Programmation web avec Flask</title>
+<link rel='stylesheet' type='text/css' href='{{ url_for("static", filename="style.css") }}'>
+</head>
+<body>
+<div class='contenu'>
+	<a href='{{ url_for("index") }}'>retour à l'index</a><br/><br/>
+	<h1>Ajout d'une personne</h1><br/>
+	{% if msg!="" %}<strong>{{ msg }}</strong><br/><br/>{% endif %}
+	<form method='post' action='{{ url_for("ajouter_personne") }}'>
+	<label for='nom'>Nom</label><input type='text' name='nom' value='{{ nom }}'>
+	<label for='prenom'>Prénom</label><input type='text' name='prenom' value='{{ prenom }}'>
+	<label for='role'>Rôle</label>
+		<select name='role'>
+			<option value='0'>Choisissez un rôle</option>
+			<option value='1' {% if role==1 %} active {% endif %}>BDD</option>
+			<option value='2' {% if role==2 %} active {% endif %}>HTML</option>
+			<option value='3' {% if role==3 %} active {% endif %}>Python</option>
+			
+		</select>
+	<input type='submit' value='ajouter'>
+	</form><br/>
+</div>
+</body>
+</html>

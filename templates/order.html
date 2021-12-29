@@ -1,61 +1,120 @@
 <!DOCTYPE html>
 <html>
 
-	<style>
-		table, th, td {
-			border:1px solid black;
-		}
-	</style>
+  <head>
+    <meta charset="utf-8" />
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
+    <title>Commander - Agilean</title>
+  </head>
 	
-	<head>
-		<title>Formulaire de Commande</title>
-	</head>
+	
+  <body>
 
-	<body>
-		<h1>Agilog Order</h1>
-		<br>
-		<br>
-		
-		<h2>Formulaire de commande</h2>
+    <header>
+      <div id="header">
+          <h1>OrexWeb</h1>
+      </div>
+  </header>
 
-		<FORM method=post>
-		<TABLE style="width:100%">
-		
-		<tr>
-			<td>Type de chassis</td>
-			<td>
-				Court : <INPUT type=radio name="chassis" value="C">
-				<br>Long : <INPUT type=radio name="chassis" value="L">
-			</td>
-		</tr>
+  <nav id="menu">
+    <ul id="onglets">
+      <li><a href="{{url_for('accueil')}}"> Accueil </a></li>
+      <li>
+        <a href=""> AgiLean </a>
+        <ul id="sous-onglets">
+          <li><a href="{{url_for('order_book_Agilean')}}">Gestion des commandes</a></li>
+          <li><a href="{{url_for('stocks_Agilean')}}">Gestion des stocks</a></li>  
+        </ul>
+      </li>
+      <li>
+        <a href=""> AgiLog </a>
+        <ul id="sous-onglets">
+          <li><a href="order_book_Agilog.html">Gestion des commandes</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href=""> Client </a>
+        <ul id="sous-onglets">
+          <li><a href="{{url_for('order_book_Client')}}">Mes commandes</a></li>
+          <li><a href="{{url_for('order')}}">Passer commande</a></li>
+        </ul>
+      </il>
+      <li id="timer" style="float: right;">
+        {{time}}
+      </li>
+      <li style="float: right;">
+        <a>Timer</a>
+        <ul id="sous-onglets">
+          <form method="get" action="accueil">
+            <li><input type="submit" name="submit" value="Start"></li>
+            <li><input type="submit" name="submit" value="Pause"></li>
+            <li><input type="submit" name="submit" value="Stop"></li>
+        </form>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  
+  
+  <h2>Commander chez AgiLean</h2>
+  <h3>Bienvenue sur le site de commande de l'entreprise AgiLean</h3>
+
+
+
+  <br>
+  <h2>Formulaire de commande</h2>
+
+
+
+
+  <FORM method=get action="order_book_Client">
+    <h3>A remplir:</h3>
+
+
+
+
+    <TABLE BORDER=0>
+	
+      <TR>
+        <TD>Type de chassis</TD>
+        <TD>
+            Court : <INPUT type=radio name="chassis" value="C", checked="checked">
+            <br>
+            Long : <INPUT type=radio name="chassis" value="L">
+        </TD>
+      </TR>
 	 
  
-		<tr>
-			<td>Type de carrosserie</td>
-			<td>
-				Ouverte : <INPUT type=radio name="carrosserie" value="O">
-				<br>Fermée : <INPUT type=radio name="carosserie" value="F">
-			</td>
-		</tr>	 
-
-	  
-		<tr>
-			<td>Options</td>
-			<td>
-				Support Hache : <INPUT type=checkbox name="option1" value="S">
-				<br>Antenne : <INPUT type=checkbox name="option2" value="A">
-				<br>Crochet : <INPUT type=checkbox name="option3" value="C">
-			</td>
-		</tr>
+      <TR>
+        <TD>Type de carrosserie</TD>
+        <TD>
+          Ouverte : <INPUT type=radio name="carrosserie" value="O", checked="checked">
+          <br>
+          Fermée : <INPUT type=radio name="carrosserie" value="F">
+        </TD>
+      </TR>	 
+	 
+	 
+      <TR>
+        <TD>Options</TD>
+        <TD>
+          Antenne : <INPUT type=checkbox name="option0" value="1" />
+          <br>
+          Crochet d'attelage : <INPUT type=checkbox name="option1" value="1" />
+          <br>
+          Attache accessoire : <INPUT type=checkbox name="option2" value="1" />
+        </TD>
+      </TR>
 
 	
-		<td COLSPAN=2>
-			<INPUT type=submit value="Envoyer">
-		</td>
-		
-		</TABLE>
-		</FORM>
-		
-	</body>
-	
+      <TD COLSPAN=2>
+        <INPUT type="submit" name="submit" value="Envoyer">
+      </TD>
+
+
+    
+    </TABLE>
+  </FORM>
+  </body>
+
 </html>

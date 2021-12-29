@@ -16,25 +16,20 @@ app = Flask(__name__)
 def index():
 	
 	contenu = ""
-	contenu += "<a href='/hello_get?prenom=toi'>Lien direct</a><br/><br/>"
+	contenu += "<a href='/template_get?prenom=toi'>Lien direct</a><br/><br/>"
 	
-	contenu += "<form method='get' action='hello_get'>"
+	contenu += "<form method='get' action='template_get'>"
 	contenu += "<input type='text' name='prenom' value=''>"
 	contenu += "<input type='submit' value='Envoyer'>"
-	contenu += "</form><br/><br/>"
-	
-	return contenu
+	contenu += "</form><br/>"
 
-# une page avec du texte dynamique envoyé par HTTP/GET
-@app.route('/hello_get', methods=['GET'])  
-def hello_get_prenom():
+	return contenu;
+ 
 
-	contenu = ""
-	contenu += "<a href='/'>retour à l'index</a><br/><br/>"
-	contenu += "Hello, " + request.args.get('prenom', 'une valeur par défaut de la req') + " !"
-	
-	return contenu
-	
+@app.route('/template_get', methods=['GET'])  
+def template_html():
+	return render_template('hello.html', prenom=request.args.get('prenom', ''))
+
 # ---------------------------------------
 # pour lancer le serveur web local Flask
 # ---------------------------------------

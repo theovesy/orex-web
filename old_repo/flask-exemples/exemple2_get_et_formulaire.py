@@ -28,7 +28,7 @@ def index():
 # une page avec du texte dynamique envoyé par HTTP/GET
 @app.route('/hello_get', methods=['GET'])  
 def hello_get_prenom():
-
+	
 	contenu = ""
 	contenu += "<a href='/'>retour à l'index</a><br/><br/>"
 	contenu += "Hello, " + request.args.get('prenom', 'une valeur par défaut de la req') + " !"

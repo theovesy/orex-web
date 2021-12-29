@@ -1,0 +1,28 @@
+body            { font-family: sans-serif; background: #eee; }
+a		        { color: #377ba8; }
+a, h1           { font-family: 'Georgia', serif; margin: 0; }
+h1              { border-bottom: 2px solid #eee; }
+
+.contenu        { margin: 2em auto; width: 75%; border: 5px solid #ccc;
+                  padding: 0.8em; background: white; }
+
+.lp_table {
+	display: table;
+	width: 100%;
+}
+.lp_entetes {
+	display: table-header-group;
+	background-color: #ddd;
+	font-weight: bold;
+}
+.lp_ligne {
+	display: table-row;
+}
+.lp_entete, .lp_cellule {
+	display: table-cell;
+	padding: 3px 10px;
+	border: 1px solid #999999;
+}
+
+
+		

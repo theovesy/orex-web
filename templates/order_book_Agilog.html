@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8" />
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
+        <title>OrexWeb - Accueil</title>
+    </head>
+	
+    <header>
+      <div id="header">
+          <h1>OrexWeb</h1>
+      </div>
+  </header>
+
+  <nav id="menu">
+    <ul id="onglets">
+      <li><a href="{{url_for('accueil')}}"> Accueil </a></li>
+      <li>
+        <a href=""> AgiLean </a>
+        <ul id="sous-onglets">
+          <li><a href="{{url_for('order_book_Agilean')}}">Gestion des commandes</a></li>
+          <li><a href="{{url_for('stocks_Agilean')}}">Gestion des stocks</a></li>  
+        </ul>
+      </li>
+      <li>
+        <a href=""> AgiLog </a>
+        <ul id="sous-onglets">
+          <li><a href="order_book_Agilog.html">Gestion des commandes</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href=""> Client </a>
+        <ul id="sous-onglets">
+          <li><a href="{{url_for('order_book_Client')}}">Mes commandes</a></li>
+          <li><a href="{{url_for('order')}}">Passer commande</a></li>
+        </ul>
+      </il>
+      <li id="timer" style="float: right;">
+        {{time}}
+      </li>
+      <li style="float: right;">
+        <a>Timer</a>
+        <ul id="sous-onglets">
+          <form method="get" action="accueil">
+            <li><input type="submit" name="submit" value="Start"></li>
+            <li><input type="submit" name="submit" value="Pause"></li>
+            <li><input type="submit" name="submit" value="Stop"></li>
+        </form>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+    <body>
+        
+    </body>
+
+
+</html>

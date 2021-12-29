@@ -19,7 +19,7 @@ def index():
 	contenu += "<a href='/afficher_personnes'>Afficher les personnes</a><br/>"
 	contenu += "<a href='/ajouter_personne'>Ajouter une personne</a><br/><br/>"
 
-	return contenu
+	return contenu;
 
 @app.route('/afficher_personnes', methods=['GET'])
 def afficher_personnes():
@@ -47,8 +47,8 @@ def ajouter_personne():
 			con.row_factory = lite.Row
 			cur = con.cursor()
 			cur.execute("INSERT INTO personnes('nom', 'prenom', 'role') VALUES (?,?,?)", (nom,prenom,role))
-			con.commit()
-			con.close()
+			conn.commit()
+			conn.close()
 			return redirect(url_for('afficher_personnes'))
 		else:
 			return render_template('formulaire_personne.html', msg = "Mauvaise saisie !", nom = "", prenom = "", role = 0)

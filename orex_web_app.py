@@ -205,6 +205,11 @@ def db_reset():
 	shutil.copy(init_db, work_db)
 
 
+@app.route('/')
+def index():
+
+	return render_template('accueil.html', time=date)
+
 ##--------------PAGE D'ACCEUIL--------------
 
 @app.route('/accueil', methods=['GET'])

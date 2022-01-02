@@ -26,7 +26,7 @@
       <li>
         <a href=""> AgiLog </a>
         <ul id="sous-onglets">
-          <li><a href="order_book_Agilog.html">Gestion des commandes</a></li>
+          <li><a href="{{url_for('order_book_Agilog')}}">Gestion des commandes</a></li>
         </ul>
       </li>
       <li>
@@ -53,7 +53,15 @@
   </nav>
 
     <body>
-        
+      <div class="accueil">
+
+        <h2> Bienvenue sur le site de gestion du Serious Game</h2>
+
+        <form method="GET" action="accueil">
+          <input type="submit" name="reset_button" value="Réinitialiser la base de donnée" class="reset_button">
+        </form>
+
+      </div>
     </body>
 
 

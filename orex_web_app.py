@@ -1,7 +1,7 @@
-from os import linesep
 import sqlite3 as lite
-from sys import argv, exc_info
 import time
+import os
+import shutil
 from flask import Flask, config, request, render_template
 
 DB_NAME = "database.db"
@@ -61,6 +61,17 @@ def db_read(querry):
 	con.close()
 	
 	return lines
+
+
+# Execute une lecture SQL paramétrée 
+# renvoie une liste de lignes 
+def db_read_tuple(querry, tuple):
+	con, cur = db_connect(DB_NAME)
+	cur.execute(querry, tuple)
+	lines = cur.fetchall()
+	con.close()
+	
+	return lines	
 
 
 # Ajoute la commande client d'après un dictionnaire de données en paramètre
@@ -129,7 +140,15 @@ def db_getCmdClient():
 # Récupère la liste des commandes de kit de Agilean depuis la bdd
 def db_getCmdAgilean():
 
-	querry = "SELECT * from Kit JOIN CmdAgilean_contient_Kit ON CmdAgilean_contient_Kit.ref_kit = Kit.ref JOIN CmdAgilean ON CmdAgilean.n_cmd = CmdAgilean_contient_Kit.n_cmd"
+	querry = "SELECT * from CmdAgilean "
+	lines = db_read(querry)
+
+	return lines
+
+# Récupère la liste détaillée des commandes de kit de Agilean depuis la bdd
+def db_getDetailledCmdAgilean():
+
+	querry = "SELECT * FROM CmdAgilean JOIN CmdAgilean_contient_Kit ON CmdAgilean.n_cmd = CmdAgilean_contient_Kit.n_cmd"
 	lines = db_read(querry)
 
 	return lines
@@ -145,7 +164,7 @@ def db_getStocksKitAgilean():
 # Récupère le nombre de kits commandés mais pas encore livrés
 def db_getEncoursKit():
 	
-	querry = "SELECT ref_kit, COUNT(*) As nb_encours FROM CmdAgilean JOIN CmdAgilean_contient_Kit ON CmdAgilean_contient_Kit.n_cmd = CmdAgilean.n_cmd GROUP BY CmdAgilean_contient_Kit.ref_kit"
+	querry = "SELECT ref_kit, SUM(qte_cmd) As nb_encours FROM CmdAgilean JOIN CmdAgilean_contient_Kit ON CmdAgilean_contient_Kit.n_cmd = CmdAgilean.n_cmd WHERE CmdAgilean.etat != \"Livrée\" GROUP BY CmdAgilean_contient_Kit.ref_kit"
 	lines = db_read(querry)
 
 	return lines
@@ -158,12 +177,33 @@ def db_getHistoCmdsAgilean():
 
 	return lines
 
+# Nombre de kit référencés dans la bdd
 def db_getNbKit():
 
 	querry = "SELECT COUNT(DISTINCT ref) FROM Kit"
 	lines = db_read(querry)
 
 	return lines[0][0]
+
+# Renvoi les références de kits contenues dans la commande en paramètre
+def db_getKitInCmdAgilean(n_cmd):
+
+	tuple = (n_cmd, )
+	querry = "SELECT ref_kit, qte_cmd FROM CmdAgilean_contient_Kit WHERE n_cmd = ?"
+
+	lines = db_read_tuple(querry, tuple)
+	
+	return lines
+
+# Pour réinitialiser la base de donnée
+def db_reset():
+	dirname = os.getcwd()	# chemin absolu du dossier courant (racine du projet)
+	init_db = os.path.join(dirname, "static/database_init.db")	# chemin aboslue de la bdd vierge à partir du chemin relatif
+	work_db = os.path.join(dirname, "database.db")
+	print(type(init_db))
+
+	shutil.copy(init_db, work_db)
+
 
 ##--------------PAGE D'ACCEUIL--------------
 
@@ -196,6 +236,10 @@ def accueil():
 			date="00:00:00"
 		else:
 			date = getDate()
+
+		# Réinitialisation de la bdd
+		if request.args.get('reset_button') == "Réinitialiser la base de donnée":
+			db_reset()
 
 	return render_template('accueil.html', time=date)
 
@@ -315,6 +359,54 @@ def stocks_Agilean():
 
 	return render_template('stocks_Agilean.html', cmds_Agilean = lines_cmdsAgilean, cmds_Encours = lines_encours, histo_Agilean = lines_histo_cmds, time = date)
 
+
+##--------------PAGE DE GESTION DES COMMANDES DE AGILEAN CHEZ AGILOG--------------
+
+@app.route('/order_book_Agilog', methods=['GET'])
+def order_book_Agilog():
+	global date
+
+	# Si une mise à jour de l'état d'une commande a été faite
+	if request.method == 'GET':
+		n_cmd = request.args.get("n_cmd")
+		etat = request.args.get("maj_cmd_agilean")
+
+		if n_cmd != None :		# Pour ne pas lancer une requête SQL lorsqu'on ne met pas à jour une commande
+
+			# En passant à l'état "Livré", on ajoute la date de réception par Agilean (cmd livrée)
+			# On ajoute également les en-cours au stocks de kits d'Agilean
+			if etat == "Livrée":
+				date_reception = getDate()
+				tuple1 = (date_reception, etat, int(n_cmd))
+				querry1 = "UPDATE CmdAgilean SET date_reception=?, etat=? WHERE n_cmd=?"
+				db_execute(querry1,tuple1)
+
+				# Maj des qtés en stock chez Agilean lorsque la cmd à été livrée	
+				# On parcours la liste des qtés commandées pour chaque réf de la commande dont l'état vient d'être modifié
+				lines = db_getKitInCmdAgilean(int(n_cmd))
+				for line in lines:
+					ref_kit = int(line['ref_kit'])
+					ancien_stock = int(db_read_tuple("SELECT qte_stock FROM Kit WHERE ref = ?", (ref_kit,))[0][0])
+					nouveau_stock = ancien_stock + int(line['qte_cmd'])
+
+					tuple_maj_stock = (nouveau_stock, ref_kit)
+					querry_maj_stock = "UPDATE Kit SET qte_stock = ? WHERE ref = ?"
+					db_execute(querry_maj_stock, tuple_maj_stock)
+
+			else:
+				tuple = (etat, n_cmd)
+				querry = "UPDATE CmdAgilean SET etat=? WHERE n_cmd=?"
+				db_execute(querry, tuple)
+
+
+	# Affiche le carnet de commandes
+	cmds_lines = db_getCmdAgilean()
+	det_lines = db_getDetailledCmdAgilean()
+	date = getDate()
+
+	return render_template('order_book_Agilog.html', cmds_Agilean = cmds_lines, det_cmds = det_lines, time = date)
 	
+
+
 if __name__ == '__main__':
 	app.run(debug=True, port=5678)
